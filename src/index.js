@@ -14,7 +14,7 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
-let count = 0
+// let count = 0
 
 // server (emit) -> client(receive) - countUpdated
 // client (emit) -> server(receive) - increment
@@ -24,19 +24,19 @@ let count = 0
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
-    // sending an event from the server and receiving that event on the clients(chat.js)
-    socket.emit('countUpdated', count)
+    // // sending an event from the server and receiving that event on the clients(chat.js)
+    // socket.emit('countUpdated', count)
 
     
-    // listening increment event from chat.js
-    socket.on('increment', () => {
-        count++
-        // by calling socket.emit i can emitting the event to a particular connection in this case
-        // socket.emit('countUpdated', count)
+    // // listening increment event from chat.js
+    // socket.on('increment', () => {
+    //     count++
+    //     // by calling socket.emit i can emitting the event to a particular connection in this case
+    //     // socket.emit('countUpdated', count)
 
-        // by calling io.emit, this is going to emit the event to evry single connection that's curretly available
-        io.emit('countUpdated', count)
-    })
+    //     // by calling io.emit, this is going to emit the event to evry single connection that's curretly available
+    //     io.emit('countUpdated', count)
+    // })
 })
 
 server.listen(port, () => {
