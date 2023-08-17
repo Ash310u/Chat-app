@@ -14,6 +14,11 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
+// printing a msg when new client connects
+io.on('connection', () => {
+    console.log('New WebSocket connetion');
+})
+
 server.listen(port, () => {
     console.log(`Server is live on port ${port}`);
 })
