@@ -25,8 +25,8 @@ io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
     socket.emit('message', "Welcome!")
-    socket.on('sendMessage', (MSG) => {
-        io.emit('message', MSG)
+    socket.on('sendMessage', (msg) => {
+        io.emit('message', msg)
     })
 
     // // sending an event from the server and receiving that event on the clients(chat.js)
