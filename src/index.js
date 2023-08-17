@@ -14,9 +14,14 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
+const count = 0
+
 // printing a msg when new client connects
-io.on('connection', () => {
+io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
+
+    // sending an event from the server and receiving that event on the clients(chat.js)
+    socket.emit('countUpdated', count)
 })
 
 server.listen(port, () => {
