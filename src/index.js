@@ -14,7 +14,7 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
-const count = 0
+let count = 0
 
 // printing a msg when new client connects
 io.on('connection', (socket) => {
@@ -22,6 +22,12 @@ io.on('connection', (socket) => {
 
     // sending an event from the server and receiving that event on the clients(chat.js)
     socket.emit('countUpdated', count)
+
+    // listening increment event from chat.js
+    socket.on('increment', () => {
+        count++
+        socket.emit('countUpdated', count)
+    })
 })
 
 server.listen(port, () => {
