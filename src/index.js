@@ -23,10 +23,15 @@ io.on('connection', (socket) => {
     // sending an event from the server and receiving that event on the clients(chat.js)
     socket.emit('countUpdated', count)
 
+    
     // listening increment event from chat.js
     socket.on('increment', () => {
         count++
-        socket.emit('countUpdated', count)
+        // by calling socket.emit i can emitting the event to a particular connection in this case
+        // socket.emit('countUpdated', count)
+
+        // by calling io.emit, this is going to emit the event to evry single connection that's curretly available
+        io.emit('countUpdated', count)
     })
 })
 
