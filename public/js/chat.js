@@ -1,5 +1,6 @@
 const socket = io()
 
+// receiving the event that the server is sending to client.
 socket.on('message', (msg) => {
     console.log(msg);
 })
@@ -14,14 +15,15 @@ document.querySelector('#msg-form').addEventListener('submit', (e) => {
     socket.emit('sendMessage', MSG)
 })
 
+document.querySelector('#send-location').addEventListener('click', () => {
+    if(!navigator.geolocation) {
+        return alert('Geolocation is not supported by your browser.')
+    }
 
-// // receiving the event that the server is sending to client
-// socket.on('countUpdated', (count) => {
-
-//     console.log('The count has been updated!', count);
-// })
-
-// document.querySelector('#increment').addEventListener('click', () => {
-//     console.log('Clicked');
-//     socket.emit('increment')
-// })
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit('sendLocation', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+        })
+    })
+})

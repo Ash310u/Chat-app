@@ -24,24 +24,25 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
-    socket.emit('message', "Welcome!")
+    // by calling socket.emit i can emitting the event to a particular connection in this case
+    socket.emit('message', "Welcome!") 
+    // broadcast.emit helps to emit it to everybody except that particular connection
+    socket.broadcast.emit('message', 'A new user has joined!')
+
     socket.on('sendMessage', (msg) => {
+        // by calling io.emit, this is going to emit the event to every single connection that's curretly available
         io.emit('message', msg)
     })
 
-    // // sending an event from the server and receiving that event on the clients(chat.js)
-    // socket.emit('countUpdated', count)
+    socket.on('sendLocation', ({latitude,longitude}) => {
+        io.emit('message', `https://google.com/maps?q=${latitude},${longitude}`)
+    })
 
-    
-    // // listening increment event from chat.js
-    // socket.on('increment', () => {
-    //     count++
-    //     // by calling socket.emit i can emitting the event to a particular connection in this case
-    //     // socket.emit('countUpdated', count)
-
-    //     // by calling io.emit, this is going to emit the event to evry single connection that's curretly available
-    //     io.emit('countUpdated', count)
-    // })
+    // web socket provide a disconnect event, there's no need to emit either the connection event or the disconnect event from the client.
+    // These are built in events. All I have to do is setup the listener.
+    socket.on('disconnect', () => {
+        io.emit('message', "User is offline")
+    })
 })
 
 server.listen(port, () => {
