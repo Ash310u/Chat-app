@@ -27,10 +27,11 @@ io.on('connection', (socket) => {
     socket.emit('message', "Welcome!") 
     // broadcast.emit helps to emit it to everybody except that particular connection
     socket.broadcast.emit('message', 'A new user has joined!')
-
-    socket.on('sendMessage', (msg) => {
+                                // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
+    socket.on('sendMessage', (msg, callback) => {
         // by calling io.emit, this is going to emit the event to every single connection that's curretly available
         io.emit('message', msg)
+        callback('delivered')
     })
 
     socket.on('sendLocation', ({latitude,longitude}) => {
