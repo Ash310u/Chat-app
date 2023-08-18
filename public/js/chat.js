@@ -11,10 +11,8 @@ document.querySelector('#msg-form').addEventListener('submit', (e) => {
     // Target represents the target that I'm listening for the event on and in this case that's form('#msg-form')
     // (e.target.elements.message) = that "message" input.
     const MSG = e.target.elements.message.value
-                                // Last argument on emit a callback function for acknowledgement.
-    socket.emit('sendMessage', MSG, () => {
-        console.log('The msg was delivered!');
-    })
+    
+    socket.emit('sendMessage', MSG)
 })
 
 document.querySelector('#send-location').addEventListener('click', () => {
@@ -27,6 +25,5 @@ document.querySelector('#send-location').addEventListener('click', () => {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
         })
-        console.log(position);
     })
 })
