@@ -14,10 +14,9 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
 
-// let count = 0
 
-// server (emit) -> client(receive) - countUpdated
-// client (emit) -> server(receive) - increment
+// server (emit) -> client(receive) - acknowledgement--> server
+// client (emit) -> server(receive) - acknowledgement--> client
 
 
 // printing a msg when new client connects
