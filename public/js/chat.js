@@ -7,7 +7,10 @@ socket.on('message', (msg) => {
 document.querySelector('#msg-form').addEventListener('submit', (e) => {
     e.preventDefault()
 
-    const MSG = document.querySelector('input').value
+    // Target represents the target that I'm listening for the event on and in this case that's form('#msg-form')
+    // (e.target.elements.message) = that "message" input.
+    const MSG = e.target.elements.message.value
+    
     socket.emit('sendMessage', MSG)
 })
 
