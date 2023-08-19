@@ -20,15 +20,19 @@ socket.on('message', (msg) => {
     // Rendering the data to the template.     // Providing data for the template as the second argument to render.
     const html = Mustache.render(messageTemplate, {
         msg: msg.text,
+        // using moment js library
         createdAt:moment(msg.createdAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
 })
 
-socket.on('locationMessage', (url) => {
-    console.log(url);
+socket.on('locationMessage', (msg) => {
+    console.log(msg);
 
-    const html = Mustache.render(locationTemplate, { url })
+    const html = Mustache.render(locationTemplate, {
+        url:msg.url,
+        createdAt:moment(msg.createdAt).format('h:mm a')
+    })
     $locationURL.insertAdjacentHTML('beforeend', html)
 })
 
