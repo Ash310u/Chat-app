@@ -5,6 +5,7 @@ const socket = io()
 const $messageForm = document.querySelector('#msg-form')
 const $messageFormInput = $messageForm.querySelector('input')   
 const $messageFormButton = $messageForm.querySelector('button')   
+const $sendLocationButton = document.querySelector('#send-location')   
 
 // receiving the event that the server is sending to client.
 socket.on('message', (msg) => {
@@ -40,16 +41,19 @@ $messageForm.addEventListener('submit', (e) => {
     })
 })
 
-document.querySelector('#send-location').addEventListener('click', () => {
+$sendLocationButton.addEventListener('click', () => {
     if(!navigator.geolocation) {
         return alert('Geolocation is not supported by your browser.')
     }
 
+    $sendLocationButton.setAttribute('disabled', 'disabled')
+    
     navigator.geolocation.getCurrentPosition((position) => {
         socket.emit('sendLocation', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude,
         }, () => {
+            $sendLocationButton.removeAttribute('disabled')
             console.log('Location shared!');
         })
     })
