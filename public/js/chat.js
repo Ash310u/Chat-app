@@ -7,9 +7,11 @@ const $messageFormInput = $messageForm.querySelector('input')
 const $messageFormButton = $messageForm.querySelector('button')   
 const $sendLocationButton = document.querySelector('#send-location')   
 const $messages = document.querySelector('#messages')   
+const $locationURL = document.querySelector('#locationURL')   
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
+const locationTemplate = document.querySelector('#location-template').innerHTML
 
 // receiving the event that the server is sending to client.
 socket.on('message', (msg) => {
@@ -18,6 +20,13 @@ socket.on('message', (msg) => {
     // Rendering the data to the template.     // Providing data for the template as the second argument to render.
     const html = Mustache.render(messageTemplate, {msg})
     $messages.insertAdjacentHTML('beforeend', html)
+})
+
+socket.on('locationMessage', (url) => {
+    console.log(url);
+
+    const html = Mustache.render(locationTemplate, {url})
+    $locationURL.insertAdjacentHTML('beforeend', html)
 })
 
 $messageForm.addEventListener('submit', (e) => {

@@ -4,17 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-    <style>
-        * {
-            background-color: #303030;
-            color: #FFFFFF;
-        }
-    </style>
 </head>
 <body>
     Chat App
 
     <div id="messages"></div>
+    <div id="locationURL"></div>
 
     <form id="msg-form">
         <input type="text" name="message" id="" placeholder="Message">
@@ -26,6 +21,11 @@
     <script id="message-template" type="text/html" >
         <div>
             <p>{{msg}}</p>
+        </div>
+    </script>
+    <script id="location-template" type="text/html" >
+        <div>
+            <p><a href="{{url}}" target="_blank">My current location</a></p>
         </div>
     </script>
 
