@@ -14,9 +14,7 @@
 <body>
     Chat App
 
-    <div id="messages">
-
-    </div>
+    <div id="messages"></div>
 
     <form id="msg-form">
         <input type="text" name="message" id="" placeholder="Message">
@@ -24,6 +22,7 @@
     </form>
     <button id="send-location">Send location</button>
 
+    <!-- setting up the Mustache template for redering the data  -->
     <script id="message-template" type="text/html" >
         <div>
             <p>{{msg}}</p>

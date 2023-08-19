@@ -15,7 +15,7 @@ const messageTemplate = document.querySelector('#message-template').innerHTML
 socket.on('message', (msg) => {
     console.log(msg);
     
-    // Rendering the data to the template
+    // Rendering the data to the template.     // Providing data for the template as the second argument to render.
     const html = Mustache.render(messageTemplate, {msg})
     $messages.insertAdjacentHTML('beforeend', html)
 })
