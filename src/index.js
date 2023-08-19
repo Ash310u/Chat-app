@@ -10,7 +10,7 @@ const server = http.createServer(app)
 // socketIo expects it to called with the raw http server (I have that in the server veriable). Now express creates that behind the scenes I don't have access to it to pass it, That's why I created it on my own.
 const io = socketio(server)
 
-const port = process.env.PORT || 3000
+const port = process.env.PORT || 5000
 const publicDirectoryPath = path.join(__dirname, '../public')
 
 app.use(express.static(publicDirectoryPath))
