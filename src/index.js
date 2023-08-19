@@ -3,6 +3,7 @@ const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
+const { generateMessage } = require('./utils/messages')
 
 const app = express()
 // Now if I don't do this express library does this behind the scenes anyways. I'm not changing the behavior. I'm just doing a little bit of refactoring.
@@ -25,9 +26,9 @@ io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
     // by calling socket.emit i can emitting the event to a particular connection in this case
-    socket.emit('message', "Welcome!") 
+    socket.emit('message', generateMessage('Welcome!') ) 
     // broadcast.emit helps to emit it to everybody except that particular connection
-    socket.broadcast.emit('message', 'A new user has joined!')
+    socket.broadcast.emit('message', generateMessage('A new user has joined!'))
                                 // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
 
@@ -37,7 +38,7 @@ io.on('connection', (socket) => {
         }
 
         // by calling io.emit, this is going to emit the event to every single connection that's curretly available
-        io.emit('message', msg)
+        io.emit('message', generateMessage(msg))
         callback()
     })
 
@@ -49,7 +50,7 @@ io.on('connection', (socket) => {
     // web socket provide a disconnect event, there's no need to emit either the connection event or the disconnect event from the client.
     // These are built in events. All I have to do is setup the listener.
     socket.on('disconnect', () => {
-        io.emit('message', "User is offline")
+        io.emit('message', generateMessage('A User is offline'))
     })
 })
 
