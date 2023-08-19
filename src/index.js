@@ -2,6 +2,7 @@ const path = require('path')
 const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
+const Filter = require('bad-words')
 
 const app = express()
 // Now if I don't do this express library does this behind the scenes anyways. I'm not changing the behavior. I'm just doing a little bit of refactoring.
@@ -29,9 +30,15 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('message', 'A new user has joined!')
                                 // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
+        
+        const filter = new Filter()
+        if (filter.isProfane(msg)) {
+            return callback('Profanity is not allowed!')
+        }
+
         // by calling io.emit, this is going to emit the event to every single connection that's curretly available
         io.emit('message', msg)
-        callback('delivered')
+        callback()
     })
 
     socket.on('sendLocation', ({latitude,longitude}) => {

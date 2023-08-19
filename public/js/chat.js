@@ -12,8 +12,12 @@ document.querySelector('#msg-form').addEventListener('submit', (e) => {
     // (e.target.elements.message) = that "message" input.
     const MSG = e.target.elements.message.value
                                 // Last argument on emit a callback function for acknowledgement.
-    socket.emit('sendMessage', MSG, (message) => {
-        console.log(`The msg was ${message}`);
+    socket.emit('sendMessage', MSG, (error) => {
+        if (error) {
+            return console.log(error);            
+        }
+
+        console.log('Message delivered!');
     })
 })
 
