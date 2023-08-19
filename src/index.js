@@ -30,7 +30,6 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('message', 'A new user has joined!')
                                 // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
-        
         const filter = new Filter()
         if (filter.isProfane(msg)) {
             return callback('Profanity is not allowed!')
@@ -41,8 +40,9 @@ io.on('connection', (socket) => {
         callback()
     })
 
-    socket.on('sendLocation', ({latitude,longitude}) => {
+    socket.on('sendLocation', ({latitude,longitude}, callback) => {
         io.emit('message', `https://google.com/maps?q=${latitude},${longitude}`)
+        callback()
     })
 
     // web socket provide a disconnect event, there's no need to emit either the connection event or the disconnect event from the client.
