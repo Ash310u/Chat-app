@@ -69,7 +69,12 @@ button:disabled {
     box-shadow: 0 0 17px 1px #1D1F26;
     background: #F7F7FA;
     padding: 24px;
-    width: 250px
+    width: 400px;
+    border-radius:10px;
+}
+
+.centered-form__box__head {
+    text-align: center;
 }
 
 .centered-form button {
