@@ -1,5 +1,7 @@
 # Chat-app
+<pre>
 chat app a Node.js application
+</pre>
 
 <hr>
 
