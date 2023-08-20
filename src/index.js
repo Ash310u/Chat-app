@@ -29,12 +29,12 @@ io.on('connection', (socket) => {
         // It's allows us to join a given chat room & we pass to it the name of the room we're tring to join.
         socket.join(room) // Passing the room string as the value to join.
 
-        socket.emit('message', generateMessage(`Welcome ${username}!`) ) 
-                        // we have to pass the string name of the room that we're trying to emit that event("to" indeed a function)
+        socket.emit('message', generateMessage(`Welcome ${username}!`))
+        // we have to pass the string name of the room that we're trying to emit that event("to" indeed a function)
         socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
     })
 
-                                // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
+    // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
 
         const filter = new Filter()
@@ -47,7 +47,7 @@ io.on('connection', (socket) => {
         callback()
     })
 
-    socket.on('sendLocation', ({latitude,longitude}, callback) => {
+    socket.on('sendLocation', ({ latitude, longitude }, callback) => {
         io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${latitude},${longitude}`))
         callback()
     })
