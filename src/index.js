@@ -29,6 +29,12 @@ io.on('connection', (socket) => {
     socket.emit('message', generateMessage('Welcome!') ) 
     // broadcast.emit helps to emit it to everybody except that particular connection
     socket.broadcast.emit('message', generateMessage('A new user has joined!'))
+
+    socket.on('join', ({ username, room }) => {
+        // It's allows us to join a given chat room & we pass to it the name of the room we're tring to join
+        socket.join(room)
+    })
+
                                 // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
 
