@@ -5,7 +5,7 @@ chat app a Node.js application
 
 ## server (emit) -> client(receive)
 
-socket.emit 			[ Which sends an event to a specific client ] <br>
+socket.emit 		<pre>	[ Which sends an event to a specific client ] <br>
 io.emit 			[ Which sends an event to every connected client ] <br>
 socket.broadcast.emit 		[ Which sends an event to every connected client except for that client ] <br>
 
