@@ -25,14 +25,13 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
-    // by calling socket.emit i can emitting the event to a particular connection in this case
-    socket.emit('message', generateMessage('Welcome!') ) 
-    // broadcast.emit helps to emit it to everybody except that particular connection
-    socket.broadcast.emit('message', generateMessage('A new user has joined!'))
-
     socket.on('join', ({ username, room }) => {
-        // It's allows us to join a given chat room & we pass to it the name of the room we're tring to join
-        socket.join(room)
+        // It's allows us to join a given chat room & we pass to it the name of the room we're tring to join.
+        socket.join(room) // Passing the room string as the value to join.
+
+        socket.emit('message', generateMessage(`Welcome ${username}!`) ) 
+                        // we have to pass the string name of the room that we're trying to emit that event("to" indeed a function)
+        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
     })
 
                                 // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
