@@ -1,31 +1,46 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Chat App</title>
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="./css/styles.min.css">
 </head>
+
 <body>
-    Chat App
+    <div class="chat">
+        <div class="chat__sidebar"></div>
+        <div class="chat__main">
+            <div id="messages" class="chat__messages"></div>
 
-    <div id="messages"></div>
-    <div id="locationURL"></div>
-
-    <form id="msg-form">
-        <input type="text" name="message" id="" placeholder="Message">
-        <Button>Send</Button>
-    </form>
-    <button id="send-location">Send location</button>
-
+            <div class="compose">
+                <form id="msg-form">
+                    <input type="text" name="message" id="" placeholder="Message">
+                    <Button>Send</Button>
+                </form>
+                <button id="send-location">Send location</button>
+            </div>
+        </div>
+    </div>
     <!-- setting up the Mustache template for redering the data  -->
-    <script id="message-template" type="text/html" >
-        <div>
-            <p>{{createdAt}} - {{msg}}</p>
+    <script id="message-template" type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">Some user name</span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+            <p>{{msg}}</p>
         </div>
     </script>
-    <script id="location-template" type="text/html" >
-        <div>
-            <p>{{createdAt}} - <a href="{{url}}" target="_blank">My current location</a></p>
+    <script id="location-template" type="text/html">
+        <div class="message">
+            <p>
+                <span class="message__name">Some user name</span>
+                <span class="message__meta">{{createdAt}}</span>
+            </p>
+            <p><a href="{{url}}" target="_blank">My current location</a></p>
         </div>
     </script>
 
@@ -37,4 +52,5 @@
     <!-- And fot this client side library, I get access to an "io" function I can call to connect-->
     <script src="./js/chat.js"></script>
 </body>
+
 </html>
