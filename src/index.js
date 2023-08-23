@@ -32,7 +32,7 @@ io.on('connection', (socket) => {
 
         socket.join(user.room)
 
-        socket.emit('message', generateMessage(`Welcome ${user.username}!`)) 
+        socket.emit('message', generateMessage('Chat app', `Welcome ${user.username}!`)) 
         socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined!`))
 
         callback()
@@ -46,13 +46,13 @@ io.on('connection', (socket) => {
             return callback('Profanity is not allowed!')
         }
 
-        io.to(user.room).emit('message', generateMessage(msg))
+        io.to(user.room).emit('message', generateMessage(user.username, msg))
         callback()
     })
 
     socket.on('sendLocation', ({ latitude, longitude }, callback) => {
         const user = getUser(socket.id)
-        io.to(user.room).emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${latitude},${longitude}`))
+        io.to(user.room).emit('locationMessage', generateLocationMessage(user.username, `https://google.com/maps?q=${latitude},${longitude}`))
         callback()
     })
 
