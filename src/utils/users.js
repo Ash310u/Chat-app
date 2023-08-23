@@ -52,25 +52,3 @@ const getUserInRoom = (room) => {
     room = room.trim().toLowerCase()
     return users.filter(user => user.room === room)
 }
-
-// Testing code
-
-addUser({
-    id:1,
-    username:'Ash',
-    room:'Los Angeles'
-})
-addUser({
-    id:2,
-    username:'rick',
-    room:'Los Angeles'
-})
-addUser({
-    id:3,
-    username:'Ash',
-    room:'Las Vegus'
-})
-
-const userList = getUserInRoom('las vegus')
-
-console.log(userList)
