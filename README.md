@@ -2,7 +2,7 @@
 <pre>
 chat app a Node.js application
 
-Website link :- "(https://ash-chat-app.onrender.com)"
+Browse link :- https://ash-chat-app.onrender.com
 </pre>
 
 <hr>
