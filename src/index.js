@@ -4,6 +4,8 @@ const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
+const { addUser, removeUser, getUser, getUserInRoom }= require('./utils/users')
+const e = require('express')
 
 const app = express()
 // Now if I don't do this express library does this behind the scenes anyways. I'm not changing the behavior. I'm just doing a little bit of refactoring.
@@ -25,13 +27,20 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
-    socket.on('join', ({ username, room }) => {
-        // It's allows us to join a given chat room & we pass to it the name of the room we're tring to join.
-        socket.join(room) // Passing the room string as the value to join.
+    socket.on('join', ({ username, room }, callback) => {
 
-        socket.emit('message', generateMessage(`Welcome ${username}!`))
-        // we have to pass the string name of the room that we're trying to emit that event("to" indeed a function)
-        socket.broadcast.to(room).emit('message', generateMessage(`${username} has joined!`))
+        const { error, user } = addUser({ id:socket.id, username, room })
+
+        if (error) {
+            return callback(error)
+        }
+
+        socket.join(user.room)
+
+        socket.emit('message', generateMessage(`Welcome ${user.username}!`)) 
+        socket.broadcast.to(user.room).emit('message', generateMessage(`${user.username} has joined!`))
+
+        callback()
     })
 
     // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
@@ -55,7 +64,11 @@ io.on('connection', (socket) => {
     // web socket provide a disconnect event, there's no need to emit either the connection event or the disconnect event from the client.
     // These are built in events. All I have to do is setup the listener.
     socket.on('disconnect', () => {
-        io.emit('message', generateMessage('A User is offline'))
+        const user = removeUser(socket.id)
+
+        if (user) {
+            io.to(user.room).emit('message', generateMessage(`${user.username} has left!`))
+        }
     })
 })
 
