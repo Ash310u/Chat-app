@@ -29,6 +29,21 @@ const autoScroll = ( ) => {
     const newMessageMargin = parseInt(newMessageStyles.marginBottom)
     const newMessageHeight = $newMessage.offsetHeight + newMessageMargin
 
+    // Visible height 
+    const visibleHeight = $messages.offsetHeight
+
+    // Height of messages container
+    const containerHeight = $messageForm.scrollHeight
+
+    // How far have i scrolled ?
+    const scrollOffset = $messages.scrollTop + visibleHeight
+    
+    // Condition
+    if (containerHeight - newMessageHeight <= scrollOffset) {
+        // This is going to push us to the bottom 
+        // So we're setting a new value for how far down we're scrolled. How far down, well all the way.
+        $messages.scrollTop = $messages.scrollHeight
+    }
 }
 
 // receiving the event that the server is sending to client.
