@@ -10,7 +10,7 @@
 
     <body>
         <div class="chat">
-            <div class="chat__sidebar"></div>
+            <div id="sidebar" class="chat__sidebar"></div>
             <div class="chat__main">
                 <div id="messages" class="chat__messages"></div>
 
@@ -23,6 +23,8 @@
                 </div>
             </div>
         </div>
+
+
         <!-- setting up the Mustache template for redering the data  -->
         <script id="message-template" type="text/html">
             <div class="message">
@@ -33,6 +35,7 @@
                 <p>{{msg}}</p>
             </div>
         </script>
+
         <script id="location-template" type="text/html">
             <div class="message">
                 <p>
@@ -41,6 +44,19 @@
                 </p>
                 <p><a href="{{url}}" target="_blank">{{username}}'s location</a></p>
             </div>
+        </script>
+
+        <script id="sidebar-template" type="text/html">
+            <h2 class="room-title">{{room}}</h2>
+            <h3 class="list-title">Users</h3>            
+            <ul class="users">
+            <!-- Opening for the Array -->
+                {{#users}}
+                <!-- Everything inside is gonna happen for each element in that Array -->
+                    <li>{{username}}</li> <!-- And we have access to the data for that object -->
+            <!-- Closing for the Array -->
+                {{/users}}
+            </ul>
         </script>
 
         <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
