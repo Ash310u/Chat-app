@@ -18,6 +18,19 @@ const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
 // Using qs.min.js library for parse the query string.  // For ignoring the "?" prefix by setting "ignoreQueryPrefix: true"
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true })
 
+const autoScroll = ( ) => {
+    // New message element
+    const $newMessage = $messages.lastElementChild
+
+    // Height of the new message
+    // This provided by the browser, here we are taking margin value from all styles and parse it into a number using parseInt 
+    const newMessageStyles = getComputedStyle($newMessage)
+                        // parseInt takes a string in and it parse it to a number
+    const newMessageMargin = parseInt(newMessageStyles.marginBottom)
+    const newMessageHeight = $newMessage.offsetHeight + newMessageMargin
+
+}
+
 // receiving the event that the server is sending to client.
 socket.on('message', (msg) => {
     console.log(msg);
@@ -30,6 +43,7 @@ socket.on('message', (msg) => {
         createdAt: moment(msg.createdAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
+    autoScroll()
 })
 
 socket.on('locationMessage', (msg) => {
@@ -41,6 +55,7 @@ socket.on('locationMessage', (msg) => {
         createdAt: moment(msg.createdAt).format('h:mm a')
     })
     $messages.insertAdjacentHTML('beforeend', html)
+    autoScroll()
 })
 
 socket.on('roomData', ({ room, users }) => {
