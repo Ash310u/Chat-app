@@ -19,11 +19,6 @@ const publicDirectoryPath = path.join(__dirname, '../public')
 app.use(express.static(publicDirectoryPath))
 
 
-// server (emit) -> client(receive) - acknowledgement--> server
-// client (emit) -> server(receive) - acknowledgement--> client
-
-
-// printing a msg when new client connects
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
@@ -43,26 +38,24 @@ io.on('connection', (socket) => {
         callback()
     })
 
-    // we have to set up a another parameter for the callback function, by calling the callback function we can anknowledge the event
     socket.on('sendMessage', (msg, callback) => {
+        const user = getUser(socket.id)
 
         const filter = new Filter()
         if (filter.isProfane(msg)) {
             return callback('Profanity is not allowed!')
         }
 
-        // by calling io.emit, this is going to emit the event to every single connection that's curretly available
-        io.emit('message', generateMessage(msg))
+        io.to(user.room).emit('message', generateMessage(msg))
         callback()
     })
 
     socket.on('sendLocation', ({ latitude, longitude }, callback) => {
-        io.emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${latitude},${longitude}`))
+        const user = getUser(socket.id)
+        io.to(user.room).emit('locationMessage', generateLocationMessage(`https://google.com/maps?q=${latitude},${longitude}`))
         callback()
     })
 
-    // web socket provide a disconnect event, there's no need to emit either the connection event or the disconnect event from the client.
-    // These are built in events. All I have to do is setup the listener.
     socket.on('disconnect', () => {
         const user = removeUser(socket.id)
 

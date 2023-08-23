@@ -20,7 +20,7 @@ const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix: true }
 socket.on('message', (msg) => {
     console.log(msg);
 
-    // Rendering the data to the template.     // Providing data for the template as the second argument to render.
+    // Rendering the data to the template.
     const html = Mustache.render(messageTemplate, {
         msg: msg.text,
         // using moment js library
@@ -42,22 +42,17 @@ socket.on('locationMessage', (msg) => {
 $messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
 
-    // Disabled until message is sent, for next msg to be send
     $messageFormButton.setAttribute('disabled', 'disabled')
 
-    // Target represents the target that I'm listening for the event on and in this case that's form('#msg-form')
-    // (e.target.elements.message) = that "message" input.
     const MSG = $messageFormInput.value
-    // Last argument on emit a callback function for acknowledgement.
+
     socket.emit('sendMessage', MSG, (error) => {
 
-        // Waiting for message to be sent
         $messageFormButton.removeAttribute('disabled')
 
         // Clearing input after sending message
         $messageFormInput.value = ''
 
-        // focus back the input
         $messageFormInput.focus()
 
         if (error) {
@@ -89,6 +84,7 @@ $sendLocationButton.addEventListener('click', () => {
 // For rooms
 socket.emit('join', { username, room }, (error) => {
     if (error) {
+        // sending a alert for go back to home page
         alert(error)
         location.href = '/'
     }
