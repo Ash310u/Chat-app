@@ -5,7 +5,7 @@ const socketio = require('socket.io')
 const Filter = require('bad-words')
 const { generateMessage, generateLocationMessage } = require('./utils/messages')
 const { addUser, removeUser, getUser, getUserInRoom }= require('./utils/users')
-const e = require('express')
+const { getActiveRooms } = require('./utils/rooms')
 
 const app = express()
 // Now if I don't do this express library does this behind the scenes anyways. I'm not changing the behavior. I'm just doing a little bit of refactoring.
@@ -21,6 +21,7 @@ app.use(express.static(publicDirectoryPath))
 
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
+
 
     socket.on('join', ({ username, room }, callback) => {
 
@@ -39,6 +40,8 @@ io.on('connection', (socket) => {
             users:getUserInRoom(user.room)
         })
 
+        io.emit('roomList', getActiveRooms(io))
+        
         callback()
     })
 
