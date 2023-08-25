@@ -22,6 +22,7 @@ app.use(express.static(publicDirectoryPath))
 io.on('connection', (socket) => {
     console.log('New WebSocket connetion');
 
+    io.emit('roomList', getActiveRooms(io))
 
     socket.on('join', ({ username, room }, callback) => {
 
@@ -40,8 +41,6 @@ io.on('connection', (socket) => {
             users:getUserInRoom(user.room)
         })
 
-        io.emit('roomList', getActiveRooms(io))
-        
         callback()
     })
 

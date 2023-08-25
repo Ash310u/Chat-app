@@ -8,7 +8,6 @@ const $messageFormButton = $messageForm.querySelector('button')
 const $sendLocationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
 const $sidebar = document.querySelector('#sidebar')
-const $room = document.querySelector('#room')
 
 // Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
@@ -82,9 +81,8 @@ socket.on('roomData', ({ room, users }) => {
     $sidebar.innerHTML = html
 })
 
-socket.on('roomList', ([...rooms]) => {
-    console.log(rooms);
-})
+
+
 
 
 

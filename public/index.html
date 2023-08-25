@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Chat App</title>
-    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon">
-    <link rel="stylesheet" href="./css/styles.min.css">
+    <link rel="shortcut icon" href="./img/favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/styles.min.css" />
 </head>
 
 <body>
@@ -15,16 +15,22 @@
             <h1 class="centered-form__box__head">Join</h1>
             <form action="/chat.html">
                 <label for="">Display name</label>
-                <input type="text" name="username" placeholder="Display name" required>
-                <label for="">room</label>
-                <input type="text" name="room" placeholder="Room" required>
+                <input type="text" name="username" placeholder="Display name" required />
+                <label>Choose a room or create your own
+                    <input list="rooms" type="text" name="room" placeholder="Room" required autocomplete="off"/>
+                    <datalist id="rooms"></datalist>
+                </label>
                 <button>Join</button>
-                <select id="rooms">
-                    <option value="" id="room"></option>
-                  </select>
             </form>
         </div>
     </div>
+    <script id="available-rooms" type="text/html">
+        {{#rooms}}
+            <option value="{{i}} {{.}}"></option>
+        {{/rooms}}
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="/socket.io/socket.io.js"></script>
     <script src="./js/join.js"></script>
 </body>
 
